@@ -7,18 +7,19 @@ class FileList:
         self.path_name=path_name
         self.file_list=file_list
     # Rename Method
-    def change_filename(self,new_name):
+    def change_filename(self,newname_list):
         # Compile the pattern
         files = os.listdir(self.path_name)
         for file in files:
-            # Prepare pattern to scan text
-            pattern=r'(\w+(?=[_\s]))'
             # Get the fole path to interact to file
             full_path=os.path.join(self.path_name,file)
             for i,oldname in enumerate(self.file_list):
-                if file.startswith(oldname):
-                    path_new=re.sub(pattern,new_name[i],full_path)
-                    os.rename(full_path,path_new)
+                if oldname!=newname_list[i]:
+                    # Prepare pattern to scan text
+                    pattern=r'(?P<name>'+oldname+')'
+                    if (file.startswith(oldname)):
+                        path_new=re.sub(pattern,newname_list[i],full_path)
+                        os.rename(full_path,path_new)
     # Used for fixing bug the length difference between old and new name list
     def check_namelist(self,new_name_list):
         if (len(new_name_list)==len(self.file_list)):
