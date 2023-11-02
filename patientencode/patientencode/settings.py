@@ -11,10 +11,19 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import environ
+import os
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# Setup Enviroment path
+env=environ.Env()
+print(BASE_DIR)
+env.read_env(os.path.join(BASE_DIR,'venv/.env'))
+
+ALLOWED_HOSTS = env("IP_ADRESS")
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -25,7 +34,9 @@ SECRET_KEY = 'django-insecure-$s9+y0whz%rij#i_v3nyoy73chr(_65f3#g5fbqo_pavvm2^*f
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    ALLOWED_HOSTS
+]
 
 
 # Application definition

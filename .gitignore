@@ -1,3 +1,4 @@
 ./vdemoserver/
 *__pycache__/
 *.vscode
+.env
