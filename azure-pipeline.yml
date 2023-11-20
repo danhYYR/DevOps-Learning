@@ -1,0 +1,25 @@
+trigger:
+  azpipeline
+variables: 
+  - group: demowebapp
+  ## Add this under variables section in the pipeline
+  - name: azSubscription
+    value: $[variables.AZSUBSCRIPTION]
+  - name : appName
+    value: $[variables.AZWEBAPP]
+  - name: azgroup
+    value: $[variables.AZGRP]
+  tag: '$(Build.BuildId)'
+
+steps:
+- script: echo $(AZGRP) # uses macro syntax
+- script: echo $(azgroup) 
+
+# - task: ArchiveFiles@2
+#    inputs:
+#      rootFolderOrFile: '$(Build.SourcesDirectory)'
+#      includeRootFolder: false
+#      archiveType: 'zip'
+#      archiveFile: '$(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip'
+#      replaceExistingArchive: true
+#      verbose: # (no value); this input is optional
