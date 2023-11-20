@@ -1,5 +1,5 @@
 trigger:
-  azpipeline
+- azpipeline
 variables: 
   - group: demowebapp
   ## Add this under variables section in the pipeline
