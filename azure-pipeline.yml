@@ -9,7 +9,6 @@ variables:
     value: $[variables.AZWEBAPP]
   - name: azgroup
     value: $[variables.AZGRP]
-  tag: '$(Build.BuildId)'
 
 steps:
 - script: echo $(AZGRP) # uses macro syntax
