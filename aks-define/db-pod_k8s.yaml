@@ -1,0 +1,17 @@
+# PostgreSQL Database Pod
+apiVersion: v1
+kind: Pod
+metadata:
+  name: postgres-demo
+  namespace: webapp
+  labels:
+    app: postgres-db
+spec:
+  containers:
+  - name: postgres-db
+    image: postgres:latest
+    envFrom:
+    - configMapRef:
+        name: envars-demo
+    ports:
+    - containerPort: 5432
