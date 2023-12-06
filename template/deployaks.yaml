@@ -6,12 +6,18 @@ pool:
 
 variables:
 - group: demogrp
-  AZ_RESOURCE_GROUP: $(variables.GRPNAME)
-  AZ_SUBSCRIPTION: $(variables.AZSUBSCRIPTION)
-  AZ_REGION: $(variables.AKSREGION)
+- name: AZ_RESOURCE_GROUP 
+  value: $(variables.GRPNAME)
+- name: AZ_SUBSCRIPTION
+  value: $(variables.AZSUBSCRIPTION)
+- name: AZ_REGION
+  value: $(variables.AKSREGION)
+
 - group: demowebapp
-  AKS_NAME: $(variables.AKSNAME)
-  AKS_NODE_COUNT: $(variables.AKSNODECOUNT)
+- name:  AKS_NAME
+  value: $(variables.AKSNAME)
+- name:  AKS_NODE_COUNT
+  value: $(variables.AKSNODECOUNT)
 stages:
 - stage: CreateAKS
   jobs:
