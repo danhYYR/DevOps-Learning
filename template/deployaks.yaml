@@ -26,7 +26,8 @@ stages:
       vmImage: ubuntu-latest
 
     steps:
-      script: #!/bin/bash printenv
+      script: | 
+        printenv
     # - task: AzureCLI@2
     #   displayName: Create AKS cluster
     #   inputs:
