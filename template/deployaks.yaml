@@ -11,7 +11,7 @@ variables:
 - name: AZ_SUBSCRIPTION
   value: $(variables.AZSUBSCRIPTION)
 - name: AZ_REGION
-  value: $(variables.AKSREGION)
+  value: $(variables.REGION)
 
 - group: demowebapp
 - name:  AKS_NAME
