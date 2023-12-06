@@ -1,0 +1,32 @@
+# trigger:
+# - main
+
+pool:
+  vmImage: ubuntu-latest
+
+variables:
+- group: demogrp
+  AZ_RESOURCE_GROUP: $(variables.GRPNAME)
+  AZ_SUBSCRIPTION: $(variables.AZSUBSCRIPTION)
+  AZ_REGION: $(variables.AKSREGION)
+- group: demowebapp
+  AKS_NAME: $(variables.AKSNAME)
+  AKS_NODE_COUNT: $(variables.AKSNODECOUNT)
+stages:
+- stage: CreateAKS
+  jobs:
+  - job: createAKS
+    pool:
+      vmImage: ubuntu-latest
+
+    steps:
+    - task: AzureCLI@2
+      displayName: Create AKS cluster
+      inputs:
+        azureSubscription: '$(serviceConnection.AZ_SUBSCRIPTION)'
+        script: |
+          az aks create \
+            --resource-group $(AZ_RESOURCE_GROUP) \
+            --name $(AKS_NAME) \
+            --node-count $(AKS_NODE_COUNT) \
+
