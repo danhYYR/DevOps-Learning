@@ -26,15 +26,15 @@ stages:
       vmImage: ubuntu-latest
 
     steps:
-    - script: | 
-        printenv
-    # - task: AzureCLI@2
-    #   displayName: Create AKS cluster
-    #   inputs:
-    #     azureSubscription: '$(serviceConnection.AZ_SUBSCRIPTION)'
-    #     script: |
-    #       az aks create \
-    #         --resource-group $(AZ_RESOURCE_GROUP) \
-    #         --name $(AKS_NAME) \
-    #         --node-count $(AKS_NODE_COUNT) \
+    # - script: | 
+    #     printenv
+    - task: AzureCLI@2
+      displayName: Create AKS cluster
+      inputs:
+        azureSubscription: '$(serviceConnection.AZ_SUBSCRIPTION)'
+        script: |
+          az aks create \
+            --resource-group $(AZ_RESOURCE_GROUP) \
+            --name $(AKS_NAME) \
+            --node-count $(AKS_NODE_COUNT) \
 
