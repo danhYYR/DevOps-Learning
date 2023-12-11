@@ -11,3 +11,18 @@ spec:
       targetPort: 8000
   selector:
     app: django-app
+---
+# Cluster IP
+apiVersion: v1
+kind: Service
+metadata:
+  name: webapp-name-svc
+  namespace: webapp
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  selector:
+    app: django-app

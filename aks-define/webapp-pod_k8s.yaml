@@ -6,7 +6,7 @@ metadata:
   labels:
     app: django-app
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       app: django-app
@@ -23,8 +23,7 @@ spec:
           command: ["/bin/sh","-c"]
           args:
             - |
-              python patientencode/manage.py runserver 0.0.0.0:8000;
-              python patientencode/manage.py migrate;
+              python patientencode/manage.py runserver 0.0.0.0:8000 && python patientencode/manage.py migrate;
           envFrom:
             - configMapRef:
                 name: envars-demo
