@@ -10,9 +10,6 @@ variables:
   - name: azgroup
     value: $[variables.AZGRP]
 
-steps:
-- script: echo $(AZGRP) # uses macro syntax
-- script: echo $(azgroup) 
 
 # - task: ArchiveFiles@2
 #    inputs:
