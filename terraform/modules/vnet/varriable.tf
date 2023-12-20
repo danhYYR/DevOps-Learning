@@ -8,7 +8,7 @@ variable "rg_location" {
   type = string
 }
 # Virtual network
-
+## Cluster Vnet
 variable "Vnet_prefix" {
     description = "Set up the Vnet Prefix range"
     type = list(string)
@@ -18,6 +18,15 @@ variable "Vnet_subnet_name" {
   type = list(string)
 }
 variable "Vnet_subnet_address" {
+    description = "The subnet in the Vitual Network IP range"
+    type = list(string)
+}
+## ControlPlane AKS
+variable "aks_subnet_name" {
+  description = "The subnet name in the Virtual Network"
+  type = list(string)
+}
+variable "aks_subnet_address" {
     description = "The subnet in the Vitual Network IP range"
     type = list(string)
 }

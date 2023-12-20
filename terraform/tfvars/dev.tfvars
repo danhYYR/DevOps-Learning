@@ -1,6 +1,8 @@
 # Resource group
-rg_location = "asiapacific"
+rg_name = "demogrptf"
+rg_location = "eastasia"
 # Vnet define
-Vnet_name = "demoVnet"
-Vnet_prefix = "10.0.0.0/16"
-Vnet_subnet = [ "10.0.3.0/24","10.0.4.0/24","10.0.5.0/24"]
+aks_subnet_address = [ "172.0.244.0/24","172.0.0.0/24"]
+aks_subnet_name = ["Cluster","ControlPlane"]
+# Aks define
+aks_name = "aks-demo"

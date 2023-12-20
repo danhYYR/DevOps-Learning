@@ -10,22 +10,25 @@ output "rg_name" {
   value = azurerm_resource_group.demotf.name
 }
 ## Vnet
-output "vnet_name" {
-  description = "Specifies the name of the virtual network"
-  value       = module.hub_network.name
-}
-
-output "vnet_id" {
-  description = "Specifies the resource id of the virtual network"
-  value       = module.hub_network.id
-}
-
-output "vnet_subnet_ids" {
-  description = "Contains a list of the the resource id of the subnets"
-  value       = module.hub_network.ids
-}
-
 output "public_IP" {
   description = "The pulic IP "
-  value       = module.hub_network.public_IP
+  value       = module.vnet.public_IP
+}
+output "sp-object_id" {
+  description = "The object_id of the service principal. Can used to assign role for user"
+  value = module.ServicePrincipal.sp-object_id
+}
+output "tennet_id" {
+  value = module.ServicePrincipal.tennet_id
+}
+output "application_id" {
+  value = module.ServicePrincipal.application_id
+}
+
+output "client_secret" {
+  value = module.ServicePrincipal.client_secret
+  sensitive = true
+}
+output "aks-demo" {
+  value = module.aks-cluster.aks_id
 }

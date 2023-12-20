@@ -17,3 +17,12 @@ output public_IP {
     description = "The pulic IP "
     value = azurerm_public_ip.demovnet_pulicIP
 }
+
+output CP_Vnet_id {
+  description = "The Vnet to manage the Control Plane on AKS"
+  value = azurerm_subnet.demovnet_aks_cp.id
+}
+output Cluster_Vnet_id {
+  description = "The Cluster subnet for AKS"
+  value = azurerm_subnet.demovnet_aks_cluster.id
+}
