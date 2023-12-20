@@ -11,10 +11,10 @@ terraform {
     }
   }
   backend "azurerm" {
-    resource_group_name   = "demogrp"
-    storage_account_name  = "tfstate22801"
-    container_name        = "tfstate"
-    key                   = "terraform.tfstate"
+    # resource_group_name   = var.grp_name
+    # storage_account_name  = var.sa_name
+    # container_name        = var.sa_container_name
+    # key                   = var.sa_key
   }
   required_version = ">=1.0.0"
 }
