@@ -1,25 +1,3 @@
-# General name
-## Check your enviroment incase the terraform required input value
-variable "environment" {
-  description = "Set up the enviroment type"
-  type = string
-}
-variable "grp_name" {
-  description = "The resource group will be use deploy the SA"
-  type = string
-}
-variable "sa_name" {
-  description = "The Storage to store the tfstate"
-  type = string  
-}
-variable "sa_container_name" {
-  description = "The name of container assign the tfstate"
-  type = string
-}
-variable "sa_key" {
-  description = "The key of sa which store the tfstate"
-  type = string
-}
 # Resoure group
 variable "rg_name" {
   description = "The name of the Resource Group"

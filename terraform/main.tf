@@ -48,6 +48,7 @@ module "ServicePrincipal" {
   CP_id = module.vnet.CP_Vnet_id
   sp-name = "aks-serviceprincipal"
 }
+# AKS
 ## aks-cluster
 module "aks-cluster" {
   source = "./modules/akscluster"
@@ -60,4 +61,15 @@ module "aks-cluster" {
   Cluster_AKS_RANGE = ["${element(var.aks_subnet_address,index(var.aks_subnet_name,"Cluster"))}"]
   client_id = module.ServicePrincipal.client_id
   client_secret = module.ServicePrincipal.client_secret
+  depends_on = [ module.jumhost ]
+}
+## JumpHostVM
+module "jumhost" {
+  source = "./modules/jumphost"
+  rg_name = azurerm_resource_group.demotf.name
+  rg_location = azurerm_resource_group.demotf.location
+  admin_username = "admin_jp"
+  ssh_public_key = file("./.ssh/id_demovm.pub")
+  vnet_subnet_id = module.vnet.CP_Vnet_id
+  public_ip_id = module.vnet.public_IP
 }

@@ -15,7 +15,7 @@ output ids {
 
 output public_IP {
     description = "The pulic IP "
-    value = azurerm_public_ip.demovnet_pulicIP
+    value = azurerm_public_ip.demovnet_pulicIP.id
 }
 
 output CP_Vnet_id {

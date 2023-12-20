@@ -21,7 +21,7 @@ variable "Vnet_subnet_address" {
     description = "The subnet in the Vitual Network IP range"
     type = list(string)
 }
-## ControlPlane AKS
+## AKS Vnet
 variable "aks_subnet_name" {
   description = "The subnet name in the Virtual Network"
   type = list(string)
