@@ -1,0 +1,7 @@
+./vdemoserver/
+*__pycache__/
+*.vscode
+venv/*.env
+terraform/*.hcl
+terraform/.terraform
+terraform/.ssh
