@@ -3,26 +3,34 @@ output name {
   value       = azurerm_virtual_network.demovnet.name
 }
 
-output id {
+output vnet_id {
   description = "Specifies the resource id of the virtual network"
   value       = azurerm_virtual_network.demovnet.id
 }
 
-output ids {
+output subnet_ids {
     description = "Contains a list of the the resource id of the subnets"
     value       = { for i, subnet in azurerm_subnet.demovnet_subnet : i => subnet.id}
 }
 
-output public_IP {
+output publicip_name {
     description = "The pulic IP "
-    value = azurerm_public_ip.demovnet_pulicIP.id
+    value = azurerm_public_ip.demovnet_pulicIP.name
 }
-
-output CP_Vnet_id {
+# AKS-VNet
+output "aks-vnet_id" {
+  description = "The Vnet to manage the AKS"
+  value = azurerm_virtual_network.demovnet_aks.id
+}
+output CP_subnet_id {
   description = "The Vnet to manage the Control Plane on AKS"
   value = azurerm_subnet.demovnet_aks_cp.id
 }
-output Cluster_Vnet_id {
+output Cluster_subnet_id {
   description = "The Cluster subnet for AKS"
   value = azurerm_subnet.demovnet_aks_cluster.id
+}
+output "JP_subnet_id" {
+  description = "The Cluster subnet for AKS"
+  value = azurerm_subnet.demovnet_aks_jpvm.id  
 }

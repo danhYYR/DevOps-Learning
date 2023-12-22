@@ -21,14 +21,8 @@ variable "default_vm" {
   } 
 }
 # Custom Vnet
-variable "CP_AKS_RANGE" {
-  type = list(string)
-}
 variable "CP_AKS_ID" {
   type = string
-}
-variable "Cluster_AKS_RANGE" {
-  type = list(string)
 }
 variable "Cluster_AKS_ID" {
   type = string

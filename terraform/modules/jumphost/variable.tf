@@ -12,7 +12,7 @@ variable "vnet_subnet_id" {
   description = "The AKS Controlplane's subnet"
   type = string
 }
-variable "public_ip_id" {
+variable "publicip_name" {
   description = "The public IP for access throughout ssh key"
   type = string
 }
@@ -36,4 +36,7 @@ variable "admin_username" {
 variable "ssh_public_key" {
   description = "SSH public key for authentication"
   type        = string
+}
+variable "ssh_private_key" {
+  description = "The SSH key for run script install kubectl"
 }

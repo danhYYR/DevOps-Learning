@@ -9,6 +9,10 @@ terraform {
       source  = "hashicorp/azuread"
       version = ">=2.0.0"
     }
+    template = {
+      source = "hashicorp/template"
+      version = ">=2.0.0"
+    }
   }
   backend "azurerm" {
     # resource_group_name   = var.grp_name
@@ -20,7 +24,11 @@ terraform {
 }
 # Provider
 provider "azurerm" {
-  features {}
+  features {
+    resource_group {
+      prevent_deletion_if_contains_resources = false
+    }
+  }
 }
 provider "azuread" {}
 # Resource
@@ -38,14 +46,15 @@ module "vnet" {
   Vnet_prefix         = var.Vnet_prefix
   Vnet_subnet_name    = var.Vnet_subnet_name
   Vnet_subnet_address = var.Vnet_subnet_address
-  aks_subnet_name = var.aks_subnet_name
+  aks_vnet_address = var.aks_subnet_address
   aks_subnet_address = var.aks_subnet_address
+  aks_subnet_name = var.aks_subnet_name
 }
 ## Service Principal
 module "ServicePrincipal" {
   source = "./modules/ServicePrincipal"
-  Cluster_id = module.vnet.Cluster_Vnet_id
-  CP_id = module.vnet.CP_Vnet_id
+  vnet_id = module.vnet.aks-vnet_id
+  aks_id = module.aks-cluster.aks_id
   sp-name = "aks-serviceprincipal"
 }
 # AKS
@@ -55,13 +64,11 @@ module "aks-cluster" {
   rg_name = azurerm_resource_group.demotf.name
   rg_location = azurerm_resource_group.demotf.location
   aks_name = var.aks_name
-  CP_AKS_ID = module.vnet.CP_Vnet_id
-  CP_AKS_RANGE = ["${element(var.aks_subnet_address,index(var.aks_subnet_name,"ControlPlane"))}"]
-  Cluster_AKS_ID = module.vnet.Cluster_Vnet_id
-  Cluster_AKS_RANGE = ["${element(var.aks_subnet_address,index(var.aks_subnet_name,"Cluster"))}"]
+  CP_AKS_ID = module.vnet.CP_subnet_id
+  Cluster_AKS_ID = module.vnet.Cluster_subnet_id
   client_id = module.ServicePrincipal.client_id
   client_secret = module.ServicePrincipal.client_secret
-  depends_on = [ module.jumhost ]
+  # depends_on = [ module.jumhost ]
 }
 ## JumpHostVM
 module "jumhost" {
@@ -70,6 +77,8 @@ module "jumhost" {
   rg_location = azurerm_resource_group.demotf.location
   admin_username = "admin_jp"
   ssh_public_key = file("./.ssh/id_demovm.pub")
-  vnet_subnet_id = module.vnet.CP_Vnet_id
-  public_ip_id = module.vnet.public_IP
+  ssh_private_key = file("./.ssh/id_demovm")
+  vnet_subnet_id = module.vnet.JP_subnet_id
+  publicip_name= module.vnet.publicip_name
+  depends_on = [azurerm_resource_group.demotf,module.vnet]
 }

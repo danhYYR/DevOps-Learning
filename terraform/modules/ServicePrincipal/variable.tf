@@ -1,11 +1,11 @@
 # Vnet
 ## Cluster Vnet
-variable "Cluster_id" {
+variable "aks_id" {
     description = "The ID for the Vnet assigned cluster"
     type = string
 }
-## ControlPlane AKS
-variable "CP_id" {
+## Vnet for AKS
+variable "vnet_id" {
   description = "The ID for the Vnet assigned cluster"
   type = string
 }

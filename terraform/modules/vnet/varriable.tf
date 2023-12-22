@@ -22,6 +22,10 @@ variable "Vnet_subnet_address" {
     type = list(string)
 }
 ## AKS Vnet
+variable "aks_vnet_address" {
+  description = "AKS Vnet range"
+  type = list(string)
+}
 variable "aks_subnet_name" {
   description = "The subnet name in the Virtual Network"
   type = list(string)

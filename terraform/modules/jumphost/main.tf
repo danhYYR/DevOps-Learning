@@ -1,3 +1,8 @@
+# Get public IP resource
+data "azurerm_public_ip" "vm_IP" {
+  resource_group_name = var.rg_name
+  name = var.publicip_name
+}
 resource "azurerm_network_interface" "jump_host_nic" {
   name                = "jump-host-nic"
   resource_group_name = var.rg_name
@@ -7,7 +12,7 @@ resource "azurerm_network_interface" "jump_host_nic" {
     name                          = "jump-host-ip-config"
     subnet_id                     = var.vnet_subnet_id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = var.public_ip_id
+    public_ip_address_id          = data.azurerm_public_ip.vm_IP.id
   }
 }
 resource "azurerm_linux_virtual_machine" "jp_vm" {
@@ -27,9 +32,21 @@ resource "azurerm_linux_virtual_machine" "jp_vm" {
     }
     source_image_reference {
         publisher = "Canonical"
-        offer     = "Ubuntu Server"
+        offer     = "0001-com-ubuntu-server-jammy"
         sku       = "22_04-lts"
         version   = "latest"
     }
-
+    ### Auto run script
+}
+resource "azurerm_virtual_machine_extension" "install_kubectl" {
+  name                 = "install-kubectl"
+  virtual_machine_id   = azurerm_linux_virtual_machine.jp_vm.id
+  publisher            = "Microsoft.Azure.Extensions"
+  type                 = "CustomScript"
+  type_handler_version = "2.1"
+  protected_settings = <<PROTECTED_SETTINGS
+    {
+      "script": "${base64encode(file("${path.module}/scripts/install.sh"))}" 
+    }
+PROTECTED_SETTINGS
 }

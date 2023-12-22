@@ -13,13 +13,14 @@ resource "azuread_service_principal_password" "demo-sp-pass" {
   service_principal_id = azuread_service_principal.demo-sp.object_id
 }
 # Assign role for Vnet
-resource "azurerm_role_assignment" "apiserver_subnet" {
-    scope = var.CP_id
+resource "azurerm_role_assignment" "aks-vnet" {
+    scope = var.vnet_id
     principal_id = azuread_service_principal.demo-sp.object_id
     role_definition_name = "Network Contributor"
 }
-resource "azurerm_role_assignment" "cluster_subnet" {
-    scope = var.Cluster_id
+
+resource "azurerm_role_assignment" "sp-role" {
+    scope = var.aks_id
     principal_id = azuread_service_principal.demo-sp.object_id
-    role_definition_name = "Network Contributor"
+    role_definition_name = "Contributor"
 }

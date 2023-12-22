@@ -6,7 +6,7 @@ output "tennet_id" {
   value = azuread_service_principal.demo-sp.application_tenant_id
 }
 output "application_id" {
-  value = azuread_service_principal.demo-sp.id
+  value = azuread_service_principal.demo-sp.application_id
 }
 
 output "client_id" {

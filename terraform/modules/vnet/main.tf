@@ -1,32 +1,12 @@
-# Terraform source
-terraform {
-  required_providers {
-    azurerm = {
-        source = "hashicorp/azurerm"
-        version = ">=2.0.0"
-    }
-  }
-  required_version = ">=1.0.0"
-}
-# Provider
-provider "azurerm" {
-  features {}
-}
-# Resource
-## Vnet for worker node
+# Vnet for Jumhost VM
 resource "azurerm_virtual_network" "demovnet" {
   name = "${var.rg_name}_demovnet"
   resource_group_name = var.rg_name
   location = var.rg_location
   address_space = var.Vnet_prefix
 }
-resource "azurerm_virtual_network" "demovnet_aks" {
-  name = "AKS_aks"
-  resource_group_name = var.rg_name
-  location = var.rg_location
-  address_space = ["172.0.0.0/16"]
-}
-### Subnet
+
+## Subnet
 resource "azurerm_subnet" "demovnet_subnet" {
     resource_group_name = var.rg_name
     virtual_network_name = azurerm_virtual_network.demovnet.name
@@ -35,11 +15,18 @@ resource "azurerm_subnet" "demovnet_subnet" {
     address_prefixes = [element(var.Vnet_subnet_address,count.index)]
     depends_on = [ azurerm_virtual_network.demovnet ]
 }
+## AKS VNet
+resource "azurerm_virtual_network" "demovnet_aks" {
+  name = "aks-vnet"
+  resource_group_name = var.rg_name
+  location = var.rg_location
+  address_space = var.aks_vnet_address
+}
 resource "azurerm_subnet" "demovnet_aks_cp" {
     resource_group_name = var.rg_name
     virtual_network_name = azurerm_virtual_network.demovnet_aks.name
     name = "Apiserver"
-    address_prefixes = [element(var.aks_subnet_address,index(var.aks_subnet_name,"ControlPlane"))]
+    address_prefixes = [element(var.aks_subnet_address,index(var.aks_subnet_name,"controlplane"))]
     delegation {
       name = "AKS api-server"
       service_delegation {
@@ -52,11 +39,19 @@ resource "azurerm_subnet" "demovnet_aks_cluster" {
     resource_group_name = var.rg_name
     virtual_network_name = azurerm_virtual_network.demovnet_aks.name
     name = "Cluster-Vnet"
-    address_prefixes = [element(var.aks_subnet_address,index(var.aks_subnet_name,"Cluster"))]
+    address_prefixes = [element(var.aks_subnet_address,index(var.aks_subnet_name,"cluster"))]
 }
-### Public IP
+
+resource "azurerm_subnet" "demovnet_aks_jpvm" {
+    resource_group_name = var.rg_name
+    virtual_network_name = azurerm_virtual_network.demovnet_aks.name
+    name = "JP_VM-Vnet"
+    address_prefixes = [element(var.aks_subnet_address,index(var.aks_subnet_name,"jumphost-vm"))]
+}
+
+## Public IP
 resource "azurerm_public_ip" "demovnet_pulicIP" {
-    name = "${var.rg_name}-${azurerm_virtual_network.demovnet.name}-mydemoPulicIP"
+    name = "${var.rg_name}-mydemoPulicIP"
     resource_group_name = var.rg_name
     location = var.rg_location
     allocation_method = "Static"
