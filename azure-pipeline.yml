@@ -1,3 +1,4 @@
+
 trigger:
 - azpipeline
 name: Build the resource
@@ -79,5 +80,4 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'plan'
-            environmentServiceNameAzureRM: 'demo-svc'
             commandOptions: '-var ssh_public_key=($sshkey.secureFilePath) -var-file $(System.DefaultWorkingDirectory)/terraform/tfvars/dev.tfvars'
