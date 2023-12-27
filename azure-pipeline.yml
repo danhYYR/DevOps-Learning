@@ -16,7 +16,7 @@ variables:
 
 ## Validate the terraform
 stages:
-  - stage: ValidateTerraform
+  - stage: Dev stage
     jobs:
       - job: TerraformValidateJob
         continueOnError: false
@@ -53,15 +53,26 @@ stages:
             provider: 'azurerm'
             command: 'validate'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-  - stage: 
-    jobs:
       - job: TerraformBuildResource
         steps:
+        ## Terraform Config backend
+        - task: TerraformTaskV4@4
+          displayName: Terraform Init
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+            backendServiceArm: 'demo-svc'
+            backendAzureRmResourceGroupName: 'demogrp'
+            backendAzureRmStorageAccountName: 'tfstate22801'
+            backendAzureRmContainerName: 'tfstate'
+            backendAzureRmKey: 'tf-pipeline'
         ## Dowload SSHkey file
         - task: DownloadSecureFile@1
           name: sshkey
           inputs:
             secureFile: 'id_azlinuxvm.pub'
+        ## Terraform
         ## Terraform plan
         - task: TerraformTaskV4@4
           displayName: Terraform Plan
@@ -69,4 +80,4 @@ stages:
             provider: 'azurerm'
             command: 'plan'
             environmentServiceNameAzureRM: 'demo-svc'
-            commandOptions: '-var ssh_public_key=($sshkey.secureFilePath)'
+            commandOptions: '-var ssh_public_key=($sshkey.secureFilePath) -var-file $(System.DefaultWorkingDirectory)/terraform/tfvars/dev.tfvars'
