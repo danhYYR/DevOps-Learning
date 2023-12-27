@@ -58,5 +58,4 @@ variable "admin_username" {
 variable "ssh_public_key" {
   description = "SSH public key for authentication"
   type        = string
-  default = file("./.ssh/id_demovm.pub")
 }
