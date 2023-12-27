@@ -16,7 +16,7 @@ variables:
 
 ## Validate the terraform
 stages:
-  - stage: Dev stage
+  - stage: Devstage
     jobs:
       - job: TerraformValidateJob
         continueOnError: false
