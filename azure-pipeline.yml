@@ -29,7 +29,7 @@ stages:
         - task: PublishBuildArtifacts@1
           displayName: Publish the artifact for terraform manifest
           inputs:
-            TargetPath: '$(System.DefaultWorkingDirectory)/terraform'
+            PathtoPublish: '$(System.DefaultWorkingDirectory)/terraform'
             ArtifactName: 'terraform-manifest'
             publishLocation: Container
 
@@ -54,6 +54,8 @@ stages:
             provider: 'azurerm'
             command: 'validate'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+  - stage: 
+    jobs:  
       - job: TerraformBuildResource
         steps:
         ## Terraform Config backend
@@ -62,7 +64,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+            workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
             backendServiceArm: 'demo-svc'
             backendAzureRmResourceGroupName: 'demogrp'
             backendAzureRmStorageAccountName: 'tfstate22801'
@@ -79,5 +81,6 @@ stages:
           displayName: Terraform Plan
           inputs:
             provider: 'azurerm'
+            environmentServiceNameAzureRM: 'demo-svc'
             command: 'plan'
             commandOptions: '-var ssh_public_key=($sshkey.secureFilePath) -var-file $(System.DefaultWorkingDirectory)/terraform/tfvars/dev.tfvars'
