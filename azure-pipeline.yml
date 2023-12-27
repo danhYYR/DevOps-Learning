@@ -90,6 +90,6 @@ stages:
           inputs:
             provider: 'azurerm'
             environmentServiceNameAzureRM: 'demo-svc'
-            workingDirectory: '$(Pipeline.Workspace)/terraform'
+            workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
             command: 'plan'
             commandOptions: '-var ssh_public_key=($sshkey.secureFilePath) -var-file $(System.DefaultWorkingDirectory)/terraform/tfvars/dev.tfvars'
