@@ -55,6 +55,7 @@ stages:
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
   - stage: 
     jobs:  
+
       - job: TerraformBuildResource
         steps:
         # - script: |
@@ -62,6 +63,10 @@ stages:
         #     ls -R $(Pipeline.Workspacey)
         #   displayName: Checking the working directory        
         ## Terraform Config backend
+        - task: TerraformInstaller@0
+          displayName: Terraform Install
+          inputs:
+            terraformVersion: 'latest'
         - task: TerraformTaskV4@4
           displayName: Terraform Init
           inputs:
