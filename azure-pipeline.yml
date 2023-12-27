@@ -56,7 +56,7 @@ stages:
   - stage: 
     jobs:  
       - job: TerraformBuildResource
-        # steps:
+        steps:
         # - script: |
         #     echo 'Checking contents of the working directory...'
         #     ls -R $(Pipeline.Workspacey)
