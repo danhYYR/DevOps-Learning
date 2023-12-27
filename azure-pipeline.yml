@@ -1,6 +1,6 @@
 trigger:
 - azpipeline
-
+name: Build the resource
 pool:
   vmImage: ubuntu-latest
 ## Set up variable from library
@@ -42,11 +42,21 @@ stages:
             backendAzureRmStorageAccountName: 'tfstate22801'
             backendAzureRmContainerName: 'tfstate'
             backendAzureRmKey: 'tf-pipeline'
-
         - task: TerraformTaskV4@4
           displayName: Terrafrom Validate
           inputs:
             provider: 'azurerm'
             command: 'validate'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-            commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath)'
+  - stage: 
+    jobs:
+      - job: TerraformBuildResource
+        steps:
+        ## Terraform plan
+        - task: TerraformTaskV4@4
+          displayName: Terraform Plan
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            environmentServiceNameAzureRM: 'demo-svc'
+            commandOptions: '-var ssh_public_key=($sshkey.secureFilePath) -var-file=$(System.DefaultWorkingDirectory)/terraform/tfvars/dev.tfvars'
