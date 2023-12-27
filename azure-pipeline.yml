@@ -21,6 +21,10 @@ stages:
       - job: TerraformValidateJob
         continueOnError: false
         steps:
+        - script: |
+            echo 'Checking contents of the working directory...'
+            ls -R $(System.DefaultWorkingDirectory)
+          displayName: Checking the working directory
         - task: PublishBuildArtifacts@1
           displayName: Publish the artifact for terraform manifest
           inputs:
