@@ -64,7 +64,7 @@ stages:
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(Pipeline.Workspace)/terraform-manifests-out'
+            workingDirectory: '$(Pipeline.Workspace)/terraform-manifests'
             backendServiceArm: 'demo-svc'
             backendAzureRmResourceGroupName: 'demogrp'
             backendAzureRmStorageAccountName: 'tfstate22801'
