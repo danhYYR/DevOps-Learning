@@ -26,8 +26,12 @@ stages:
             echo 'Checking contents of the working directory...'
             ls -R $(System.DefaultWorkingDirectory)
           displayName: Checking the working directory
-
-
+        - task: PublishBuildArtifacts@1
+          displayName: Publish the artifact for terraform manifest
+          inputs:
+            PathtoPublish: '$(System.DefaultWorkingDirectory)/terraform'
+            ArtifactName: 'terraform-manifest'
+            publishLocation: Container
         - task: TerraformInstaller@0
           displayName: Terraform Install
           inputs:
@@ -49,16 +53,14 @@ stages:
             provider: 'azurerm'
             command: 'validate'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        - task: PublishBuildArtifacts@1
-          displayName: Publish the artifact for terraform manifest
-          inputs:
-            PathtoPublish: '$(System.DefaultWorkingDirectory)/terraform'
-            ArtifactName: 'terraform-manifest'
-            publishLocation: Container
   - stage: 
     jobs:  
       - job: TerraformBuildResource
         steps:
+        - script: |
+            echo 'Checking contents of the working directory...'
+            ls -R $(Pipeline.Workspacey)
+          displayName: Checking the working directory        
         ## Terraform Config backend
         - task: TerraformTaskV4@4
           displayName: Terraform Init
