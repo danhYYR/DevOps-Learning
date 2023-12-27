@@ -30,7 +30,7 @@ stages:
           inputs:
             TargetPath: '$(System.DefaultWorkingDirectory)/terraform'
             ArtifactName: 'terraform-manifest'
-            publishLocation: FilePath
+            publishLocation: Container
 
         - task: TerraformInstaller@0
           displayName: Terraform Install
