@@ -1,24 +1,51 @@
 trigger:
 - azpipeline
+
+pool:
+  vmImage: ubuntu-latest
+## Set up variable from library
 variables: 
-  - group: demowebapp
+  - group: demogroup
   ## Add this under variables section in the pipeline
   - name: azSubscription
     value: $[variables.AZSUBSCRIPTION]
-  - name : appName
-    value: $[variables.AZWEBAPP]
-  - name: azgroup
-    value: $[variables.AZGRP]
+  - name : az_group
+    value: $[variables.GRPNAME]
+  - name: az_location
+    value: $[variables.REGION]
 
-steps:
-- script: echo $(AZGRP) # uses macro syntax
-- script: echo $(azgroup) 
+## Validate the terraform
+stages:
+  - stage: ValidateTerraform
+    jobs:
+      - job: TerraformValidateJob
+        continueOnError: false
+        steps:
+        - task: PublishBuildArtifacts@1
+          displayName: Publish the artifact for terraform manifest
+          inputs:
+            TargetPath: '$(System.DefaultWorkingDirectory)/terraform'
+            ArtifactName: 'terraform-manifest'
+            publishLocation: Container
+        - task: TerraformInstaller@0
+          displayName: Terraform Install
+          inputs:
+            terraformVersion: 'latest'
+        - task: TerraformTaskV4@4
+          displayName: TerraformInit
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+            backendServiceArm: 'demo-svc'
+            backendAzureRmResourceGroupName: 'demogrp'
+            backendAzureRmStorageAccountName: 'tfstate22801'
+            backendAzureRmContainerName: 'tfstate'
+            backendAzureRmKey: 'tf-pipeline'
 
-# - task: ArchiveFiles@2
-#    inputs:
-#      rootFolderOrFile: '$(Build.SourcesDirectory)'
-#      includeRootFolder: false
-#      archiveType: 'zip'
-#      archiveFile: '$(Build.ArtifactStagingDirectory)/Application$(Build.BuildId).zip'
-#      replaceExistingArchive: true
-#      verbose: # (no value); this input is optional
+        - task: TerraformTaskV4@4
+          displayName: TerrafromValidate
+          inputs:
+            provider: 'azurerm'
+            command: 'validate'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
