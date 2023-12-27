@@ -48,3 +48,15 @@ variable "aks_name" {
     type = string
     default = "demoaks"
 }
+# JumpHost VM
+variable "admin_username" {
+  description = "Admin username for the VM"
+  type        = string
+  default = "admin"
+}
+
+variable "ssh_public_key" {
+  description = "SSH public key for authentication"
+  type        = string
+  default = file("./.ssh/id_demovm.pub")
+}

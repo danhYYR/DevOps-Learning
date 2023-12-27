@@ -37,6 +37,3 @@ variable "ssh_public_key" {
   description = "SSH public key for authentication"
   type        = string
 }
-variable "ssh_private_key" {
-  description = "The SSH key for run script install kubectl"
-}
