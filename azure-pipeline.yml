@@ -30,7 +30,8 @@ stages:
           inputs:
             TargetPath: '$(System.DefaultWorkingDirectory)/terraform'
             ArtifactName: 'terraform-manifest'
-            publishLocation: Container
+            publishLocation: FilePath
+
         - task: TerraformInstaller@0
           displayName: Terraform Install
           inputs:
@@ -56,6 +57,11 @@ stages:
     jobs:
       - job: TerraformBuildResource
         steps:
+        ## Dowload SSHkey file
+        - task: DownloadSecureFile@1
+          name: sshkey
+          inputs:
+            secureFile: 'id_azlinuxvm.pub'
         ## Terraform plan
         - task: TerraformTaskV4@4
           displayName: Terraform Plan
