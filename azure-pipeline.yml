@@ -49,3 +49,4 @@ stages:
             provider: 'azurerm'
             command: 'validate'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+            commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath)'
