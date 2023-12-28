@@ -75,7 +75,18 @@ stages:
           name: sshkey
           inputs:
             secureFile: 'id_azlinuxvm.pub'
-        ## Terraform
+        ## Terraform backend
+        - task: TerraformTaskV4@4
+          displayName: Terraform Init
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
+            backendServiceArm: 'demo-svc'
+            backendAzureRmResourceGroupName: 'demogrp'
+            backendAzureRmStorageAccountName: 'tfstate22801'
+            backendAzureRmContainerName: 'tfstate'
+            backendAzureRmKey: 'tf-pipeline'
         ## Terraform plan
         - task: TerraformTaskV4@4
           displayName: Terraform Plan
