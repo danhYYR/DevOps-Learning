@@ -52,7 +52,7 @@ stages:
           displayName: Publish the artifact for terraform manifest
           inputs:
             targetPath: '$(System.DefaultWorkingDirectory)/terraform'
-            ArtifactName: 'terraform-manifest'
+            artifact: 'terraform-manifest'
   - stage: 
     displayName: BuildInfrastructure
     jobs:  
@@ -65,7 +65,7 @@ stages:
             targetPath: '$(Pipeline.Workspace)'
         - script: |
             echo 'Checking contents of the working directory...'
-            ls -R $(Pipeline.Workspace/terraform-manifest)
+            ls -al $(Pipeline.Workspace)
           displayName: Checking the working directory        
         # Terraform Config backend
         ## Dowload SSHkey file
