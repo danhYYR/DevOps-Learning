@@ -63,7 +63,7 @@ stages:
             targetPath: '$(Pipeline.Workspace)/terraform-manifest'
         - script: |
             echo 'Checking contents of the working directory...'
-            ls -al $(Pipeline.Workspace)
+            ls -Ral $(Pipeline.Workspace/terraform-manifest)
           displayName: Checking the working directory        
         # Terraform Config backend
         ## Dowload SSHkey file
