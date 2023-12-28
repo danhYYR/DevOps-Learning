@@ -64,7 +64,7 @@ stages:
             targetPath: '$(Pipeline.Workspace)/terraform-manifest'
         - script: |
             echo 'Assign the permission for the terraform configuration'
-            chmod +r $(Pipeline.Workspace)/terraform-manifest/.terraform
+            chmod -R +rx $(Pipeline.Workspace)/terraform-manifest/.terraform
             echo 'Checking contents of the working directory...'
             ls -Ral $(Pipeline.Workspace)/terraform-manifest
           displayName: Checking the working directory        
@@ -75,13 +75,6 @@ stages:
           inputs:
             secureFile: 'id_azlinuxvm.pub'
         ## Terraform backend
-        - task: TerraformTaskV4@4
-          displayName: Terraform Init
-          inputs:
-            provider: 'azurerm'
-            command: 'init'
-            workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
-            commandOptions: '--upgrade'
         ## Terraform plan
         - task: TerraformTaskV4@4
           displayName: Terraform Plan
