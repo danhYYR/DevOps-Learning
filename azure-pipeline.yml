@@ -55,6 +55,7 @@ stages:
             artifact: 'terraform-manifest'
       ## Build the resource      
       - job: TerraformBuildResource
+        dependsOn: TerraformValidateJob
         steps:
         - task: DownloadPipelineArtifact@2
           inputs:
@@ -65,7 +66,10 @@ stages:
             echo 'Checking contents of the working directory...'
             ls -Ral $(Pipeline.Workspace)/terraform-manifest
           displayName: Checking the working directory        
-        # Terraform Config backend
+        # Assign the Read Permission
+        - script: |
+            echo 'Assign the permission for the terraform configuration'
+            chmod +r $(Pipeline.Workspace)/terraform-manifest/.terraform
         ## Dowload SSHkey file
         - task: DownloadSecureFile@1
           name: sshkey
