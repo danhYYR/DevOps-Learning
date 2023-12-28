@@ -58,6 +58,11 @@ stages:
     jobs:  
       - job: TerraformBuildResource
         steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            buildType: 'current'
+            artifactName: 'terraform-manifest'
+            targetPath: '$(Pipeline.Workspace)'
         - script: |
             echo 'Checking contents of the working directory...'
             ls -R $(Pipeline.Workspace/terraform-manifest)
