@@ -48,10 +48,10 @@ stages:
             command: 'validate'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
         ## Publish Artifact
-        - task: PublishBuildArtifacts@1
+        - task: PublishPipelineArtifact@1
           displayName: Publish the artifact for terraform manifest
           inputs:
-            PathtoPublish: '$(System.DefaultWorkingDirectory)/terraform'
+            targetPath: '$(System.DefaultWorkingDirectory)/terraform'
             ArtifactName: 'terraform-manifest'
   - stage: 
     displayName: BuildInfrastructure
