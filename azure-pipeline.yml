@@ -17,7 +17,7 @@ variables:
 
 ## Validate the terraform
 stages:
-  - stage: Devstage
+  - stage: BuildTheInfrasctruture
     jobs:
       - job: TerraformValidateJob
         continueOnError: false
@@ -53,16 +53,14 @@ stages:
           inputs:
             targetPath: '$(System.DefaultWorkingDirectory)/terraform'
             artifact: 'terraform-manifest'
-  - stage: 
-    displayName: BuildInfrastructure
-    jobs:  
+      ## Build the resource      
       - job: TerraformBuildResource
         steps:
         - task: DownloadPipelineArtifact@2
           inputs:
             buildType: 'current'
             artifactName: 'terraform-manifest'
-            targetPath: '$(Pipeline.Workspace)'
+            targetPath: '$(Pipeline.Workspace)/terraform-manifest'
         - script: |
             echo 'Checking contents of the working directory...'
             ls -al $(Pipeline.Workspace)
