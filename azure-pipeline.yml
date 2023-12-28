@@ -73,7 +73,7 @@ stages:
         - task: DownloadSecureFile@1
           name: sshkey
           inputs:
-            secureFile: 'id_azlinuxvm.pub'
+            secureFile: 'id_demovm.pub.pub'
         ## Terraform backend
         ## Terraform plan
         - task: TerraformTaskV4@4
@@ -83,4 +83,4 @@ stages:
             environmentServiceNameAzureRM: 'demo-svc'
             workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
             command: 'plan'
-            commandOptions: '-var ssh_public_key=($sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars'
+            commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars'
