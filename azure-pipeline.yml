@@ -1,6 +1,6 @@
 
 trigger:
-- azpipeline
+- none
 name: Build the resource
 pool:
   vmImage: ubuntu-latest
