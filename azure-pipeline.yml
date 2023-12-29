@@ -82,6 +82,7 @@ stages:
           inputs:
             provider: 'azurerm'
             workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
+            environmentServiceNameAzureRM: 'demo-aks'
             command: 'plan'
             commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars'
         ## Terraform Apply
@@ -90,5 +91,6 @@ stages:
           inputs:
             provider: 'azurerm'
             workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
+            environmentServiceNameAzureRM: 'demo-aks'
             command: 'apply'
             commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars --auto-approve'
