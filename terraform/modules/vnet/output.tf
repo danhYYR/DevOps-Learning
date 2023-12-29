@@ -13,9 +13,13 @@ output subnet_ids {
     value       = { for i, subnet in azurerm_subnet.demovnet_subnet : i => subnet.id}
 }
 
-output publicip_name {
+output publicip_id{
     description = "The pulic IP "
-    value = azurerm_public_ip.demovnet_pulicIP.name
+    value = azurerm_public_ip.demovnet_pulicIP.id
+}
+output publicip_ipaddress{
+    description = "The pulic IP address"
+    value = azurerm_public_ip.demovnet_pulicIP.ip_address
 }
 # AKS-VNet
 output "aks-vnet_id" {

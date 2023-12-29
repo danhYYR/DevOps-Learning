@@ -12,7 +12,7 @@ variable "vnet_subnet_id" {
   description = "The AKS Controlplane's subnet"
   type = string
 }
-variable "publicip_name" {
+variable "publicip_id" {
   description = "The public IP for access throughout ssh key"
   type = string
 }

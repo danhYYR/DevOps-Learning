@@ -12,7 +12,7 @@ output "rg_name" {
 # Vnet
 output "public_IP" {
   description = "The pulic IP "
-  value       = module.vnet.publicip_name
+  value       = module.vnet.publicip_ipaddress
 }
 ## Demovnet
 output "demovnet_subnet" {

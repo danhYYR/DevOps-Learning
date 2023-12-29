@@ -78,6 +78,6 @@ module "jumhost" {
   admin_username = "admin_jp"
   ssh_public_key = file(var.ssh_public_key)
   vnet_subnet_id = module.vnet.JP_subnet_id
-  publicip_name= module.vnet.publicip_name
+  publicip_id= module.vnet.publicip_id
   depends_on = [azurerm_resource_group.demotf,module.vnet]
 }
