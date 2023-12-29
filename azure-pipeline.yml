@@ -1,4 +1,3 @@
-
 trigger:
 - azpipeline
 name: Build the resource
@@ -64,7 +63,7 @@ stages:
             targetPath: '$(Pipeline.Workspace)/terraform-manifest'
         - script: |
             echo 'Assign the permission for the terraform configuration'
-            chmod -R +rx $(Pipeline.Workspace)/terraform-manifest/.terraform
+            chmod -R +r $(Pipeline.Workspace)/terraform-manifest/.terraform
             echo 'Checking contents of the working directory...'
             ls -Ral $(Pipeline.Workspace)/terraform-manifest
           displayName: Checking the working directory        
@@ -86,3 +85,12 @@ stages:
             workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
             command: 'plan'
             commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars'
+        ## Terraform Apply
+        - task: TerraformTaskV4@4
+          displayName: Terraform Apply
+          inputs:
+            provider: 'azurerm'
+            environmentServiceNameAzureRM: 'demo-svc'
+            workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
+            command: 'apply'
+            commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars --auto-approve'
