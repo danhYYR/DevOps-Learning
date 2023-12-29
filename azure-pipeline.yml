@@ -63,7 +63,7 @@ stages:
             targetPath: '$(Pipeline.Workspace)/terraform-manifest'
         - script: |
             echo 'Assign the permission for the terraform configuration'
-            chmod -R +r $(Pipeline.Workspace)/terraform-manifest/.terraform
+            chmod -R +x $(Pipeline.Workspace)/terraform-manifest/.terraform
             echo 'Checking contents of the working directory...'
             ls -Ral $(Pipeline.Workspace)/terraform-manifest
           displayName: Checking the working directory        
