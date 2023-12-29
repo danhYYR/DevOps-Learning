@@ -35,7 +35,7 @@ stages:
             provider: 'azurerm'
             command: 'init'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-            backendServiceArm: 'demo-svc'
+            backendServiceArm: 'demo-aks'
             backendAzureRmResourceGroupName: 'demogrp'
             backendAzureRmStorageAccountName: 'tfstate22801'
             backendAzureRmContainerName: 'tfstate'
@@ -81,7 +81,6 @@ stages:
           displayName: Terraform Plan
           inputs:
             provider: 'azurerm'
-            environmentServiceNameAzureRM: 'demo-svc'
             workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
             command: 'plan'
             commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars'
@@ -90,7 +89,6 @@ stages:
           displayName: Terraform Apply
           inputs:
             provider: 'azurerm'
-            environmentServiceNameAzureRM: 'demo-svc'
             workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
             command: 'apply'
             commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars --auto-approve'
