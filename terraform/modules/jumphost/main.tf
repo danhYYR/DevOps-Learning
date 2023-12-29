@@ -1,8 +1,3 @@
-# Get public IP resource
-data "azurerm_public_ip" "vm_IP" {
-  resource_group_name = var.rg_name
-  name = var.publicip_name
-}
 resource "azurerm_network_interface" "jump_host_nic" {
   name                = "jump-host-nic"
   resource_group_name = var.rg_name
@@ -12,7 +7,7 @@ resource "azurerm_network_interface" "jump_host_nic" {
     name                          = "jump-host-ip-config"
     subnet_id                     = var.vnet_subnet_id
     private_ip_address_allocation = "Dynamic"
-    public_ip_address_id          = data.azurerm_public_ip.vm_IP.id
+    public_ip_address_id          = var.publicip_id
   }
 }
 resource "azurerm_linux_virtual_machine" "jp_vm" {
