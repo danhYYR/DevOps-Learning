@@ -74,7 +74,9 @@ stages:
           name: sshkey
           inputs:
             secureFile: 'id_demovm.pub.pub'
-        ## Terraform backend
+        - script: |
+            echo 'Verify the ssh key'
+            cat $(sshkey.secureFilePath)
         ## Terraform plan
         - task: TerraformTaskV4@4
           displayName: Terraform Plan
