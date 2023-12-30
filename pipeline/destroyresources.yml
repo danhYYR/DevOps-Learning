@@ -1,5 +1,5 @@
-trigger: 
-- azpipeline
+trigger:
+- none
 ## Validate the terraform
 stages:
   - stage: DestroyTerraform
@@ -27,7 +27,7 @@ stages:
           displayName: Terraform Destroy
           inputs:
             provider: 'azurerm'
-            environmentServiceNameAzureRM: 'demo-svc'
+            environmentServiceNameAzureRM: 'demo-aks'
             workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
             command: 'destroy'
             commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars --auto-approve'
