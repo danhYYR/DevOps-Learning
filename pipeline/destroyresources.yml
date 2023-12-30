@@ -1,4 +1,5 @@
-trigger: none
+trigger: 
+- azpipeline
 ## Validate the terraform
 stages:
   - stage: DestroyTerraform
