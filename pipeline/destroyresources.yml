@@ -1,6 +1,4 @@
-trigger:
-- none
-
+trigger: none
 ## Validate the terraform
 stages:
   - stage: DestroyTerraform
