@@ -1,0 +1,31 @@
+
+trigger:
+- none
+
+## Validate the terraform
+stages:
+  - stage: DestroyTerraform
+    jobs:
+      ## Build the resource      
+      - job: TerrafromDestroyResource
+        steps:
+        - task: DownloadPipelineArtifact@2
+          inputs:
+            buildType: 'current'
+            artifactName: 'terraform-manifest'
+            targetPath: '$(Pipeline.Workspace)/terraform-manifest'
+        - script: |
+            echo 'Assign the permission for the terraform configuration'
+            chmod -R +rx $(Pipeline.Workspace)/terraform-manifest/.terraform
+            echo 'Checking contents of the working directory...'
+            ls -Ral $(Pipeline.Workspace)/terraform-manifest
+          displayName: Checking the working directory        
+        ## Terraform plan
+        - task: TerraformTaskV4@4
+          displayName: Terraform Destroy
+          inputs:
+            provider: 'azurerm'
+            environmentServiceNameAzureRM: 'demo-svc'
+            workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
+            command: 'destroy'
+            commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars --auto-approve'
