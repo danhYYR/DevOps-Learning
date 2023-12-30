@@ -40,6 +40,7 @@ stages:
             backendAzureRmStorageAccountName: 'tfstate22801'
             backendAzureRmContainerName: 'tfstate'
             backendAzureRmKey: 'tf-pipeline'
+            environmentServiceNameAzureRM: 'demo-aks'
         - task: TerraformTaskV4@4
           displayName: Terrafrom Validate
           inputs:
@@ -92,5 +93,6 @@ stages:
             provider: 'azurerm'
             workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
             environmentServiceNameAzureRM: 'demo-aks'
+            backendServiceArm: 'demo-aks'
             command: 'apply'
             commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars --auto-approve'
