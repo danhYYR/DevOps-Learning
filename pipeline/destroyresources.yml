@@ -19,7 +19,11 @@ stages:
             chmod -R +rx $(Pipeline.Workspace)/terraform-manifest/.terraform
             echo 'Checking contents of the working directory...'
             ls -Ral $(Pipeline.Workspace)/terraform-manifest
-          displayName: Checking the working directory        
+          displayName: Checking the working directory     
+        - task: DownloadSecureFile@1
+          name: sshkey
+          inputs:
+            secureFile: 'id_demovm.pub.pub'    
         ## Terraform plan
         - task: TerraformTaskV4@4
           displayName: Terraform Destroy
