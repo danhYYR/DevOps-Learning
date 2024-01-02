@@ -31,4 +31,4 @@ stages:
             environmentServiceNameAzureRM: 'demo-aks'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
             command: 'destroy'
-            commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(System.DefaultWorkingDirectory)/terraform/tfvars/dev.tfvars --auto-approve'
+            commandOptions: '-var sp-id=$(AKS_ID) -var sp-client_secret=$(AKS_SECRET) -var ssh_public_key=$(sshkey.secureFilePath) -var-file $(System.DefaultWorkingDirectory)/terraform/tfvars/dev.tfvars --auto-approve'
