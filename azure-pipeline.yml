@@ -28,8 +28,8 @@ stages:
           SecretsFilter: '*'
           RunAsPreJob: true
       - script: |
-          echo "##vso[task.setvariable variable=AKS_ID;isOutput=true]$(aks-client-id)"
-          echo "##vso[task.setvariable variable=AKS_SECRET;isOutput=true]$(aks-client-id)"
+          echo "##vso[task.setvariable variable=AKS_ID;isOutput=true]$(aks-sp-id)"
+          echo "##vso[task.setvariable variable=AKS_SECRET;isOutput=true]$(aks-client-secret)"
         displayName: 'Publish Secrets as Variables'
         name: AKS
   - stage: BuildTheInfrasctruture
