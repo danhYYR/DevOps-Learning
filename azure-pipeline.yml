@@ -28,18 +28,24 @@ stages:
           SecretsFilter: '*'
           RunAsPreJob: true
       - script: |
-          echo "##vso[task.setvariable variable=AKS_ID;isOutput=true]$(aks-client-id)"
+          echo "##vso[task.setvariable variable=AKS_ID;isOutput=true]$(aks-sp-id)"
           echo "##vso[task.setvariable variable=AKS_SECRET;isOutput=true]$(aks-client-secret)"
         displayName: 'Publish Secrets as Variables'
+        name: AKS
   - stage: BuildTheInfrasctruture
+    variables:
+      AKS_ID: $[ stageDependencies.RetrieveKeyVault.Retrieve_Secret.outputs['AKS.AKS_ID'] ]
+      AKS_SECRET: $[ stageDependencies.RetrieveKeyVault.Retrieve_Secret.outputs['AKS.AKS_SECRET'] ]
+
     jobs:
       - job: TerraformValidateJob
         continueOnError: false
         steps:
         - script: |
-            echo 'Checking contents of the working directory...'
-            ls -R $(System.DefaultWorkingDirectory)
-          displayName: Checking the working directory
+            echo 'Checking contents of the output variable'
+            echo AKS_ID: $(AKS_ID)
+            echo AKS_SECRET: $(AKS_SECRET)
+          displayName: Checking the key-vault variable
         - task: TerraformInstaller@0
           displayName: Terraform Install
           inputs:
