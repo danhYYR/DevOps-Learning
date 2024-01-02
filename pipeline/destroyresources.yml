@@ -1,7 +1,5 @@
-
 trigger:
 - none
-
 ## Validate the terraform
 stages:
   - stage: DestroyTerraform
@@ -9,23 +7,28 @@ stages:
       ## Build the resource      
       - job: TerrafromDestroyResource
         steps:
-        - task: DownloadPipelineArtifact@2
+        - task: TerraformTaskV4@4
+          displayName: Terraform Init
           inputs:
-            buildType: 'current'
-            artifactName: 'terraform-manifest'
-            targetPath: '$(Pipeline.Workspace)/terraform-manifest'
-        - script: |
-            echo 'Assign the permission for the terraform configuration'
-            chmod -R +rx $(Pipeline.Workspace)/terraform-manifest/.terraform
-            echo 'Checking contents of the working directory...'
-            ls -Ral $(Pipeline.Workspace)/terraform-manifest
-          displayName: Checking the working directory        
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
+            backendServiceArm: 'demo-aks'
+            backendAzureRmResourceGroupName: 'demogrp'
+            backendAzureRmStorageAccountName: 'tfstate22801'
+            backendAzureRmContainerName: 'tfstate'
+            backendAzureRmKey: 'tf-pipeline'
+            environmentServiceNameAzureRM: 'demo-aks' 
+        - task: DownloadSecureFile@1
+          name: sshkey
+          inputs:
+            secureFile: 'id_demovm.pub.pub'    
         ## Terraform plan
         - task: TerraformTaskV4@4
           displayName: Terraform Destroy
           inputs:
             provider: 'azurerm'
-            environmentServiceNameAzureRM: 'demo-svc'
-            workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
+            environmentServiceNameAzureRM: 'demo-aks'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
             command: 'destroy'
-            commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars --auto-approve'
+            commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(System.DefaultWorkingDirectory)/terraform/tfvars/dev.tfvars --auto-approve'
