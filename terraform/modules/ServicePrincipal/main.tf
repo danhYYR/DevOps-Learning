@@ -11,9 +11,9 @@ data "azuread_service_principal" "pipeline-sp" {
 #     app_role_assignment_required = true
 #     owners = [data.azurerm_client_config.current.object_id]
 # }
-resource "azuread_service_principal_password" "demo-sp-pass" {
-  service_principal_id = data.azuread_service_principal.pipeline-sp.object_id
-}
+# resource "azuread_service_principal_password" "demo-sp-pass" {
+#   service_principal_id = data.azuread_service_principal.pipeline-sp.object_id
+# }
 # Assign role for Vnet
 resource "azurerm_role_assignment" "aks-vnet" {
     scope = var.vnet_id
