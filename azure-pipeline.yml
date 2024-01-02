@@ -16,6 +16,21 @@ variables:
 
 ## Validate the terraform
 stages:
+  - stage: RetrieveKeyVault
+    jobs:
+    - job: Retrieve_Secret
+      displayName: Retrieve the secret of Service Principal from Key Vault
+      steps:
+      - task: AzureKeyVault@2
+        inputs:
+          azureSubscription: 'demo-aks'
+          KeyVaultName: 'pipeline-sp'
+          SecretsFilter: '*'
+          RunAsPreJob: true
+      - script: |
+          echo "##vso[task.setvariable variable=AKS_ID;isOutput=true]$(aks-client-id)"
+          echo "##vso[task.setvariable variable=AKS_SECRET;isOutput=true]$(aks-client-secret)"
+        displayName: 'Publish Secrets as Variables'
   - stage: BuildTheInfrasctruture
     jobs:
       - job: TerraformValidateJob
@@ -53,7 +68,6 @@ stages:
           inputs:
             targetPath: '$(System.DefaultWorkingDirectory)/terraform'
             artifact: 'terraform-manifest'
-      ## Build the resource      
       - job: TerraformBuildResource
         dependsOn: TerraformValidateJob
         steps:
@@ -85,7 +99,7 @@ stages:
             workingDirectory: '$(Pipeline.Workspace)/terraform-manifest'
             environmentServiceNameAzureRM: 'demo-aks'
             command: 'plan'
-            commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars'
+            commandOptions: '-var sp-id=$(AKS_ID) -var sp-client_secret=$(AKS_SECRET) -var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars'
         ## Terraform Apply
         - task: TerraformTaskV4@4
           displayName: Terraform Apply
@@ -95,4 +109,4 @@ stages:
             environmentServiceNameAzureRM: 'demo-aks'
             backendServiceArm: 'demo-aks'
             command: 'apply'
-            commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars --auto-approve'
+            commandOptions: '-var sp-id=$(AKS_ID) -var sp-client_secret=$(AKS_SECRET) -var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars --auto-approve'
