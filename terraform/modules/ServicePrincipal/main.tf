@@ -1,5 +1,5 @@
 data "azuread_service_principal" "pipeline-sp" {
-  object_id = var.sp-id
+  client_id  = var.sp-id
 }
 
 # resource "azuread_application" "main" {
@@ -23,6 +23,6 @@ resource "azurerm_role_assignment" "aks-vnet" {
 
 resource "azurerm_role_assignment" "sp-role" {
     scope = var.aks_id
-    principal_id = data.azuread_service_principal.pipeline-sp
+    principal_id = data.azuread_service_principal.pipeline-sp.object_id
     role_definition_name = "Contributor"
 }

@@ -5,9 +5,6 @@ output "sp-object_id" {
 output "tennet_id" {
   value = data.azuread_service_principal.pipeline-sp.application_tenant_id
 }
-output "application_id" {
-  value = data.azuread_service_principal.pipeline-sp.application_id
-}
 
 output "client_id" {
   value = data.azuread_service_principal.pipeline-sp.client_id

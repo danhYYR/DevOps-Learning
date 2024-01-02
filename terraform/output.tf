@@ -30,9 +30,6 @@ output "sp-object_id" {
 output "tennet_id" {
   value = module.ServicePrincipal.tennet_id
 }
-output "application_id" {
-  value = module.ServicePrincipal.application_id
-}
 output "client_secret" {
   value = module.ServicePrincipal.client_secret
   sensitive = true
