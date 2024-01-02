@@ -38,8 +38,9 @@ stages:
         steps:
         - script: |
             echo 'Checking contents of the working directory...'
-            ls -R $(System.DefaultWorkingDirectory)
-          displayName: Checking the working directory
+            echo $(AKS_ID)
+            echo $(AKS_SECRET)
+          displayName: Checking the key-vault variable
         - task: TerraformInstaller@0
           displayName: Terraform Install
           inputs:
