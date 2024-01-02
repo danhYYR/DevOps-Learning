@@ -30,10 +30,10 @@ output "sp-object_id" {
 output "tennet_id" {
   value = module.ServicePrincipal.tennet_id
 }
-output "client_secret" {
-  value = module.ServicePrincipal.client_secret
-  sensitive = true
-}
+# output "client_secret" {
+#   value = module.ServicePrincipal.client_secret
+#   sensitive = true
+# }
 # AKS
 output "aks-demo" {
   value = module.aks-cluster.aks_id
