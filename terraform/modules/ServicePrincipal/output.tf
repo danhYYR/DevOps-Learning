@@ -10,7 +10,7 @@ output "application_id" {
 }
 
 output "client_id" {
-  value = azuread_application.main.client_id
+  value = data.azuread_service_principal.pipeline-sp.client_id
 }
 output "client_secret" {
   value = azuread_service_principal_password.demo-sp-pass.value
