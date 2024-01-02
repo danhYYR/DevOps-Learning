@@ -56,6 +56,7 @@ module "ServicePrincipal" {
   vnet_id = module.vnet.aks-vnet_id
   aks_id = module.aks-cluster.aks_id
   sp-name = "aks-serviceprincipal"
+  sp-id = var.sp-id
 }
 # AKS
 ## aks-cluster
@@ -66,8 +67,8 @@ module "aks-cluster" {
   aks_name = var.aks_name
   CP_AKS_ID = module.vnet.CP_subnet_id
   Cluster_AKS_ID = module.vnet.Cluster_subnet_id
-  client_id = module.ServicePrincipal.client_id
-  client_secret = module.ServicePrincipal.client_secret
+  client_id = var.sp-id
+  client_secret = var.sp-client_secret
   # depends_on = [ module.jumhost ]
 }
 ## JumpHostVM

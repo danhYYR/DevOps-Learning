@@ -14,3 +14,7 @@ variable "sp-name" {
     description = "The name of Service Pricipal"
     type = string
 }
+variable "sp-id" {
+    description = "The Service Principal Object ID"
+    type = string
+}

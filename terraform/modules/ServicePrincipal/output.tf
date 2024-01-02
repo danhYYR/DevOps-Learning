@@ -1,12 +1,12 @@
 output "sp-object_id" {
   description = "The object_id of the service principal. Can used to assign role for user"
-  value = azuread_service_principal.demo-sp.object_id
+  value = data.azuread_service_principal.pipeline-sp.object_id
 }
 output "tennet_id" {
-  value = azuread_service_principal.demo-sp.application_tenant_id
+  value = data.azuread_service_principal.pipeline-sp.application_tenant_id
 }
 output "application_id" {
-  value = azuread_service_principal.demo-sp.application_id
+  value = data.azuread_service_principal.pipeline-sp.application_id
 }
 
 output "client_id" {

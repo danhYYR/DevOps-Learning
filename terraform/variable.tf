@@ -58,3 +58,10 @@ variable "admin_username" {
 variable "ssh_public_key" {
   description = "SSH public key for authentication"
 }
+# Service Principal
+variable "sp-id" {
+  description = "The Service Principal from Pipeline"
+}
+variable "sp-client_secret" {
+  description = "The Service Principal secret from Pipeline"
+}
