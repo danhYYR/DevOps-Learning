@@ -31,7 +31,12 @@ stages:
           echo "##vso[task.setvariable variable=AKS_ID;isOutput=true]$(aks-client-id)"
           echo "##vso[task.setvariable variable=AKS_SECRET;isOutput=true]$(aks-client-secret)"
         displayName: 'Publish Secrets as Variables'
+        name: AKS
   - stage: BuildTheInfrasctruture
+    variables:
+      AKS_ID: $[ stageDependencies.RetrieveKeyVault.Retrieve_Secret.outputs['AKS.AKS_ID'] ]
+      AKS_SECRET: $[ stageDependencies.RetrieveKeyVault.Retrieve_Secret.outputs['AKS.AKS_SECRET'] ]
+
     jobs:
       - job: TerraformValidateJob
         continueOnError: false
