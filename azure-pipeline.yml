@@ -25,7 +25,7 @@ stages:
         inputs:
           azureSubscription: 'demo-aks'
           KeyVaultName: 'pipeline-sp'
-          SecretsFilter: 'aks-*'
+          SecretsFilter: 'aks*'
           RunAsPreJob: true
       - script: |
           echo "##vso[task.setvariable variable=AKS_ID;isOutput=true]$(aks-client-id)"
@@ -109,4 +109,4 @@ stages:
             environmentServiceNameAzureRM: 'demo-aks'
             backendServiceArm: 'demo-aks'
             command: 'apply'
-            commandOptions: '-var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars --auto-approve'
+            commandOptions: '-var sp-id=$(AKS_ID) -var sp-client_secret=$(AKS_SECRET) -var ssh_public_key=$(sshkey.secureFilePath) -var-file $(Pipeline.Workspace)/terraform-manifest/tfvars/dev.tfvars --auto-approve'
