@@ -43,8 +43,8 @@ stages:
         steps:
         - script: |
             echo 'Checking contents of the working directory...'
-            echo $(AKS_ID)
-            echo $(AKS_SECRET)
+            echo AKS_ID: $(AKS_ID)
+            echo AKS_SECRET: $(AKS_SECRET)
           displayName: Checking the key-vault variable
         - task: TerraformInstaller@0
           displayName: Terraform Install
