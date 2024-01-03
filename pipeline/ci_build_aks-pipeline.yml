@@ -16,28 +16,16 @@ variables:
 
 ## Validate the terraform
 stages:
-  - stage: RetrieveKeyVault
-    jobs:
-    - job: Retrieve_Secret
-      displayName: Retrieve the secret of Service Principal from Key Vault
-      steps:
-      - task: AzureKeyVault@2
-        inputs:
-          azureSubscription: 'demo-aks'
-          KeyVaultName: 'pipeline-sp'
-          SecretsFilter: '*'
-          RunAsPreJob: true
-      - script: |
-          echo "##vso[task.setvariable variable=AKS_ID;isOutput=true]$(aks-sp-id)"
-          echo "##vso[task.setvariable variable=AKS_SECRET;isOutput=true]$(aks-client-secret)"
-        displayName: 'Publish Secrets as Variables'
-        name: AKS
+  ## Add the template to get the key vault
+  - template: retrieve_variables-pipeline.yml
+  ## Build the resource stage
   - stage: BuildTheInfrasctruture
     variables:
       AKS_ID: $[ stageDependencies.RetrieveKeyVault.Retrieve_Secret.outputs['AKS.AKS_ID'] ]
       AKS_SECRET: $[ stageDependencies.RetrieveKeyVault.Retrieve_Secret.outputs['AKS.AKS_SECRET'] ]
 
     jobs:
+      ## Validate the terraform and build the terraform.hcl
       - job: TerraformValidateJob
         continueOnError: false
         steps:
@@ -68,12 +56,13 @@ stages:
             provider: 'azurerm'
             command: 'validate'
             workingDirectory: '$(System.DefaultWorkingDirectory)/terraform'
-        ## Publish Artifact
+      ## Publish Artifact which have the terraform.hcl
         - task: PublishPipelineArtifact@1
           displayName: Publish the artifact for terraform manifest
           inputs:
             targetPath: '$(System.DefaultWorkingDirectory)/terraform'
             artifact: 'terraform-manifest'
+      ## Terraform apply  
       - job: TerraformBuildResource
         dependsOn: TerraformValidateJob
         steps:
