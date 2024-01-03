@@ -1,12 +1,9 @@
 trigger:
 - none
-## Validate the terraform
 stages:
-  - stage: RetriveKeyVault
-    jobs: 
-      - job: Retrieve_Secret
-        steps:
-        - template: pipeline/retrieve_variables-pipeline.yml@RetrieveKeyVault  # Use the same template file
+  ## Include the template get the key-vault
+  - template: retrieve_variables-pipeline.yml  # Use the same template file
+  ## Run destroy terraform
   - stage: DestroyTerraform
     variables:
       AKS_ID: $[ stageDependencies.RetrieveKeyVault.Retrieve_Secret.outputs['AKS.AKS_ID'] ]
