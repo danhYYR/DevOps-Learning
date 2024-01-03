@@ -3,13 +3,14 @@ trigger:
 ## Validate the terraform
 stages:
   - stage: RetriveKeyVault
-    job: Retrieve_Secret
-    step:
-      - template: ../azure-pipelines.yml@Retrieve_Secrets  # Use the same template file
-        parameters:
-        # Pass the values of the secrets as parameters to the template
-          AKS_ID: $(AKS_ID)
-          AKS_SECRET: $(AKS_SECRET)
+    jobs: 
+      - job: Retrieve_Secret
+        steps:
+        - template: ../azure-pipelines.yml@Retrieve_Secrets  # Use the same template file
+          parameters:
+          # Pass the values of the secrets as parameters to the template
+            AKS_ID: $(AKS_ID)
+            AKS_SECRET: $(AKS_SECRET)
   - stage: DestroyTerraform
     variables:
       AKS_ID: $[ stageDependencies.RetrieveKeyVault.Retrieve_Secret.outputs['AKS.AKS_ID'] ]
