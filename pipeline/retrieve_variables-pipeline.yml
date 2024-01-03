@@ -1,14 +1,3 @@
-## Set up variable from library
-variables: 
-  - group: demogroup
-  ## Add this under variables section in the pipeline
-  - name: azSubscription
-    value: $[variables.AZSUBSCRIPTION]
-  - name : az_group
-    value: $[variables.GRPNAME]
-  - name: az_location
-    value: $[variables.REGION]
-## Validate the terraform
 jobs:
 - job: Retrieve_Secret
   displayName: Retrieve the secret of Service Principal from Key Vault
