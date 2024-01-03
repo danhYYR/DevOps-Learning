@@ -1,0 +1,37 @@
+trigger:
+- none
+name: Build the resource
+pool:
+  vmImage: ubuntu-latest
+## Set up variable from library
+variables: 
+  - group: demogroup
+  ## Add this under variables section in the pipeline
+  - name: azSubscription
+    value: $[variables.AZSUBSCRIPTION]
+  - name : az_group
+    value: $[variables.GRPNAME]
+  - name: az_location
+    value: $[variables.REGION]
+parameters:
+  - name: AKS_ID
+    type: 
+  - name: AKS_SECRET
+## Validate the terraform
+stages:
+  - stage: RetrieveKeyVault
+    jobs:
+    - job: Retrieve_Secret
+      displayName: Retrieve the secret of Service Principal from Key Vault
+      steps:
+      - task: AzureKeyVault@2
+        inputs:
+          azureSubscription: 'demo-aks'
+          KeyVaultName: 'pipeline-sp'
+          SecretsFilter: '*'
+          RunAsPreJob: true
+      - script: |
+          echo "##vso[task.setvariable variable=AKS_ID;isOutput=true]$(aks-sp-id)"
+          echo "##vso[task.setvariable variable=AKS_SECRET;isOutput=true]$(aks-client-secret)"
+        displayName: 'Publish Secrets as Variables'
+        name: AKS

@@ -6,7 +6,7 @@ stages:
     jobs: 
       - job: Retrieve_Secret
         steps:
-        - template: /re.yml@RetrieveKeyVault  # Use the same template file
+        - template: pipeline/retrieve_variables-pipeline.yml@RetrieveKeyVault  # Use the same template file
           parameters:
           # Pass the values of the secrets as parameters to the template
             AKS_ID: $(AKS_ID)
