@@ -1,6 +1,6 @@
 trigger:
 - none
-name: Build the resource
+name: RetrieveVariables
 pool:
   vmImage: ubuntu-latest
 ## Set up variable from library
@@ -13,10 +13,6 @@ variables:
     value: $[variables.GRPNAME]
   - name: az_location
     value: $[variables.REGION]
-parameters:
-  - name: AKS_ID
-    type: 
-  - name: AKS_SECRET
 ## Validate the terraform
 stages:
   - stage: RetrieveKeyVault
