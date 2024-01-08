@@ -38,3 +38,7 @@ output "tennet_id" {
 output "aks-demo" {
   value = module.aks-cluster.aks_id
 }
+# Jumhost VM
+output "jp_vm" {
+  value=module.jumhost
+}
