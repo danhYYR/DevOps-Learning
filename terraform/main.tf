@@ -76,7 +76,7 @@ module "jumhost" {
   source = "./modules/jumphost"
   rg_name = azurerm_resource_group.demotf.name
   rg_location = azurerm_resource_group.demotf.location
-  admin_username = "admin_jp"
+  admin_username = var.admin_username
   ssh_public_key = file(var.ssh_public_key)
   vnet_subnet_id = module.vnet.JP_subnet_id
   publicip_id= module.vnet.publicip_id
