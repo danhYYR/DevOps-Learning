@@ -56,3 +56,17 @@ resource "azurerm_public_ip" "demovnet_pulicIP" {
     location = var.rg_location
     allocation_method = "Static"
 }
+## Network Security Group
+locals {
+  ports = [22, 80, 443,5432]
+}
+module "nsg" {
+  source = "./nsg"
+  rg_name = var.rg_name
+  rg_location = var.rg_location
+  nsg-ports = local.ports
+}
+resource "azurerm_subnet_network_security_group_association" "inbound-grp" {
+  network_security_group_id = module.nsg.nsg-id
+  subnet_id = azurerm_subnet.demovnet_aks_jpvm.id
+}
