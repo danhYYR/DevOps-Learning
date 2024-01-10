@@ -40,4 +40,9 @@
       ansible.builtin.shell:
         cmd: 'az aks get-credentials --name {{aks_name}} --resource-group {{rg_name}} --overwrite-existing'
         executable: /bin/bash
-  
+
+    - name: Deploy AKS
+      ansible.builtin.shell:
+        cmd: 'source ~/demo/scripts/deploypod.sh'
+        executable: /bin/bash
+
