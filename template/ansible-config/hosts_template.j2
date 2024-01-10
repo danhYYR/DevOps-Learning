@@ -1,0 +1,7 @@
+all:
+  hosts:
+    jumphost:
+      ansible_host: "{{ terraform_outputs.public_IP.value }}"
+      ansible_ssh_private_key_file: {{ssh_key_file}}
+      ansible_user: "{{terraform_outputs.jp_vm.value.admin_username}}"
+  # Add more hosts or groups as needed

@@ -4,4 +4,4 @@
 venv/
 terraform/*.hcl
 terraform/.terraform
-terraform/.ssh
+.ssh

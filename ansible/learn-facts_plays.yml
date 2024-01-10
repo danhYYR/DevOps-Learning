@@ -1,0 +1,12 @@
+---
+- name: Play 1 - Set Variables
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Set Variables
+      ansible.builtin.set_fact:
+        my_variable: "Hello, World!"
+
+    - name: Retrieve Variables
+      debug:
+        var: tenant_id

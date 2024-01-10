@@ -1,0 +1,63 @@
+{
+  "aks-demo": {
+    "sensitive": false,
+    "type": "string",
+    "value": "/subscriptions/720a19d2-972b-4fd9-b92c-d3b1ea4d14e3/resourceGroups/demogrptf/providers/Microsoft.ContainerService/managedClusters/aks-demo"
+  },
+  "aks-vnet": {
+    "sensitive": false,
+    "type": "string",
+    "value": "/subscriptions/720a19d2-972b-4fd9-b92c-d3b1ea4d14e3/resourceGroups/demogrptf/providers/Microsoft.Network/virtualNetworks/aks-vnet"
+  },
+  "demovnet_subnet": {
+    "sensitive": false,
+    "type": [
+      "object",
+      {
+        "0": "string",
+        "1": "string"
+      }
+    ],
+    "value": {
+      "0": "/subscriptions/720a19d2-972b-4fd9-b92c-d3b1ea4d14e3/resourceGroups/demogrptf/providers/Microsoft.Network/virtualNetworks/demogrptf_demovnet/subnets/vm-vnet",
+      "1": "/subscriptions/720a19d2-972b-4fd9-b92c-d3b1ea4d14e3/resourceGroups/demogrptf/providers/Microsoft.Network/virtualNetworks/demogrptf_demovnet/subnets/bastion-vnet"
+    }
+  },
+  "jp_vm": {
+    "sensitive": false,
+    "type": [
+      "object",
+      {
+        "admin_username": "string"
+      }
+    ],
+    "value": {
+      "admin_username": "admin_jp"
+    }
+  },
+  "public_IP": {
+    "sensitive": false,
+    "type": "string",
+    "value": "20.187.120.68"
+  },
+  "rg_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "/subscriptions/720a19d2-972b-4fd9-b92c-d3b1ea4d14e3/resourceGroups/demogrptf"
+  },
+  "rg_name": {
+    "sensitive": false,
+    "type": "string",
+    "value": "demogrptf"
+  },
+  "sp-object_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "8ef80e96-0510-4a9d-8174-748f6993d80d"
+  },
+  "tennet_id": {
+    "sensitive": false,
+    "type": "string",
+    "value": "93f33571-550f-43cf-b09f-cd331338d086"
+  }
+}
