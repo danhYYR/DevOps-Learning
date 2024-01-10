@@ -1,0 +1,16 @@
+- name: Setup hosts config
+  hosts: localhost 
+  gather_facts: false 
+  tasks:
+    - name: Set variable for ansible playbook
+      set_fact:
+        terraform_outputs: "{{ lookup('file', 'config/tf-outputs.json') | from_json }}"
+        ssh_key_file: "../.ssh/id_demovm"
+        inventory_file: "config/hosts_inventory.yml"
+    - name: Generate inventory content
+      template:
+        src: "../template/ansible-config/hosts_template.j2"
+        dest: "{{ inventory_file }}"
+    - name: Debug the host inventory file
+      debug:
+        msg: "{{ lookup('file', 'config/hosts_inventory.yml') | from_yaml }}"
