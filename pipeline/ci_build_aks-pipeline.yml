@@ -1,5 +1,12 @@
 trigger:
-- none
+  branches:
+    include: 
+      - azpipeline
+      - tf
+  paths:
+    include:
+      - terraform
+
 name: Build the resource
 pool:
   vmImage: ubuntu-latest
