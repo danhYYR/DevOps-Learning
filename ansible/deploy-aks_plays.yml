@@ -43,6 +43,6 @@
 
     - name: Deploy AKS
       ansible.builtin.shell:
-        cmd: 'source ~/demo/scripts/deploypod.sh'
+        cmd: 'cd ~/demo/scripts/ && source ~/demo/scripts/deploypod.sh'
         executable: /bin/bash
 
