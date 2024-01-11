@@ -30,3 +30,10 @@
         src: "../scripts/deploypod.sh"
         dest: "~/demo/scripts/"
       register: script_copy_result
+
+      
+    - name: Copy Detroy Script
+      ansible.builtin.copy:
+        src: "../scripts/deletedeploy.sh"
+        dest: "~/demo/scripts/"
+      register: script_copy_result
