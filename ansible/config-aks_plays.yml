@@ -1,3 +1,4 @@
+## Retrieve the keyvault value
 - name: Deploy AKS Cluster using Azure CLI
   hosts: localhost
   gather_facts: false
@@ -18,7 +19,7 @@
     - name: Validate the Service Principal
       ansible.builtin.debug:
         msg: "ID: {{client_id}} and pass: {{client_secret}}"
-
+## Config the AKS Credential
 - name: Get the AKS Credential
   hosts: jumphost
   gather_facts: false
@@ -38,9 +39,9 @@
 
     - name: Get the AKS Credential
       ansible.builtin.shell:
-        cmd: 'az aks get-credentials --name {{aks_name}} --resource-group {{rg_name}} --overwrite-existing'
+        cmd: 'az aks get-credentials --admin --name {{aks_name}} --resource-group {{rg_name}} --overwrite-existing'
         executable: /bin/bash
-
+## Copy the manifest to the jumphost VM
 - name: Prepare the AKS Manifest
   hosts: jumphost  # Replace 'jumphost' with the actual hostname or group for your jump host
   gather_facts: false
