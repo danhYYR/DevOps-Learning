@@ -5,3 +5,4 @@ venv/
 terraform/*.hcl
 terraform/.terraform
 .ssh
+ansible/config

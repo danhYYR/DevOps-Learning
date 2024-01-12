@@ -1,8 +1,0 @@
-all:
-  hosts:
-    jumphost:
-      ansible_host: "20.187.120.68"
-      ansible_ssh_private_key_file: ../.ssh/id_demovm
-      ansible_user: "admin_jp"
-  # Add more hosts or groups as needed
-

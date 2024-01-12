@@ -1,7 +1,0 @@
-## Variables define
-all:
-  vars:
-    aks_name: aks-demo
-    rg_name: demogrptf
-    rg_location: eastasia
-    tenant_id: 93f33571-550f-43cf-b09f-cd331338d086
