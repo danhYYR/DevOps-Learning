@@ -3,13 +3,19 @@
   hosts: localhost
   gather_facts: false
   tasks:
+    - name: Get the Enviroment variables
+      ansible.builtin.set_fact:
+        vault_uri: "{{lookup('ansible.builtin.env','vault_uri')}}"
+        vault_sp_id: "{{lookup('ansible.builtin.env','vault_client_id')}}"
+        vault_sp_secret: "{{lookup('ansible.builtin.env','vault_client_secret')}}"
+
     - name: Get Service Principal from Key Vault
       azure.azcollection.azure_rm_keyvaultsecret_info:
-        vault_uri: "https://pipeline-sp.vault.azure.net"
+        vault_uri: "{{vault_uri}}"
         name: "{{item}}"
       loop:
-        - "aks-sp-id"
-        - "aks-client-secret"
+        - "{{vault_sp_id}}"
+        - "{{vault_sp_secret}}"
       register: keyvaultsecret_info
 
     - name: Assign variables for the Client 
