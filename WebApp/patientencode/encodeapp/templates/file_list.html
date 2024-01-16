@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Subjects</h1>
+    <form method="GET" action="">
+        <input type="text" name="q" placeholder="Search...">
+        <input type="submit" value="Search">
+    </form>
+    {% for subject in subjects %}
+          <p>
+            ID: {{subject.id}}
+          <p>
+            Name: {{subject.initial_name}}
+          </p>
+          <p>
+            Encoded Name: {{ subject.encoded_name }} 
+          </p>
+        <form method="POST" action="{% url 'delete_subject' subject.id %}">
+          {% csrf_token %}
+          <input type="submit" value="Delete">
+    {% empty %}
+        <p>No subjects found.</p>
+    {% endfor %}
+
+{% endblock %}
