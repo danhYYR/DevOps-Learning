@@ -24,7 +24,10 @@ services:
     build: ./WebApp
     container_name: django_web
     command: 
-      bash -c "python patientencode/manage.py migrate && python patientencode/manage.py runserver 0.0.0.0:8000"
+      bash -c "python patientencode/manage.py makemigrations && python patientencode/manage.py runserver 0.0.0.0:8000"
+      # bash -c "python patientencode/manage.py migrate"
+      # bash -c "printenv"
+
     volumes:
       - ./WebApp:/app
     env_file:

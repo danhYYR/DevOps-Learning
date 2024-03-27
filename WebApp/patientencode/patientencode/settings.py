@@ -95,6 +95,12 @@ DATABASES = {
         'PORT': os.environ.get('POSTGRES_PORT')
     }
 }
+ENCRYPT_KEY = os.environ.get('ENCRYPT_KEY')
+AI_MODEL = {
+    'MODEL_ENDPOINT': os.environ.get('DI_ENDPOINT'),
+    'MODEL_KEY': os.environ.get('API_KEY'),
+    'MODEL_ID': os.environ.get('MODEL_ID')
+}
 
 
 # Password validation
